@@ -1,0 +1,23 @@
+{
+    "name": "tomverran/di",
+    "type": "library",
+    "description": "Fun little DI container",
+    "keywords": ["DI", "IoC", "Container"],
+    "homepage": "https://carefulcoder.co.uk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tom Verran",
+            "homepage": "https://carefulcoder.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "tomverran\\di": "src"
+        }
+    }
+}
