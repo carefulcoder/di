@@ -53,10 +53,11 @@ class LazyLoader implements \ArrayAccess
      * Call a method
      * @param $method
      * @param $args
+     * @return mixed
      */
     public function __call($method, $args)
     {
-        call_user_func_array(array($this->load(), $method), $args);
+        return call_user_func_array(array($this->load(), $method), $args);
     }
 
     /**
