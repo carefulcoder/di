@@ -1,8 +1,8 @@
 <?php
 /**
- * ParserTest.php
+ * DiTest.php
  * @author Tom
- * @since 11/11/13
+ * @since 15/11/13
  */
 $s = DIRECTORY_SEPARATOR; //run from whichever working dir you want!
 require(dirname(__FILE__)."{$s}..{$s}vendor{$s}autoload.php");
@@ -10,9 +10,8 @@ use tomverran\di\Injector;
 
 /**
  * Yeah, I thought I should do some testing.
- * Class BootstrapBladeCompilerTest
  */
-class ParserTest extends PHPUnit_Framework_TestCase
+class DiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Injector An instance of the injector
