@@ -44,12 +44,10 @@ Usage
 Pun name candidates
 -------------------
 
-"Live and Let DI" - I like this but it is rather a long name
-"DI Another Day"  - I'm not ready to admit that Die Another Day existed
-
-"Lady DI" - Bad taste.
-
-"Euthanasia / Helping you DI" - Very bad taste.
+ - "Live and Let DI" - I like this but it is rather a long name
+ - "DI Another Day"  - I'm not ready to admit that Die Another Day existed
+ - "Lady DI" - Bad taste.
+ - "Euthanasia / Helping you DI" - Very bad taste.
 
 
 License
