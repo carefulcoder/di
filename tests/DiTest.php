@@ -15,17 +15,16 @@ use tomverran\di\Injector;
 class ParserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Injector An instance of the compiler.
-     * It is stateless so can be safely reused between tests.
+     * @var Injector An instance of the injector
      */
-    private static $injector = null;
+    private $injector = null;
 
     /**
      * Create an instance of our injector
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        self::$injector = new Injector();
+        $this->injector = new Injector();
     }
 
     /**
@@ -33,7 +32,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testLoading()
     {
-        $class = self::$injector->resolve('tomverran\di\Injector');
+        $class = $this->injector->resolve('tomverran\di\Injector');
         $this->assertTrue($class instanceof Injector);
     }
 
@@ -42,8 +41,8 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyLoading()
     {
-        self::$injector->setExpensive('tomverran\di\Injector');
-        $class = self::$injector->resolve('tomverran\di\Injector');
+        $this->injector->setExpensive('tomverran\di\Injector');
+        $class = $this->injector->resolve('tomverran\di\Injector');
         $this->assertTrue($class instanceof tomverran\di\LazyLoader);
 
         //make sure our lazy loader class is transparent
