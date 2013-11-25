@@ -119,20 +119,20 @@ class Injector
 
         foreach ($constructor->getParameters() as $param) {
 
-            //first, do we have a type hint?
+            //do we have a default? That'd make life easy
+            if ($default = $param->getDefaultValue()) {
+                $params[] = $default;
+                continue;
+            }
+
+            //ok then, do we have a type hint?
             if ($class = $param->getClass()) {
                 $params[] = $this->resolve($class, $lazy);
             } else {
 
-                //no type hint, do we have a default?
-                if ($default = $param->getDefaultValue()) {
-                    $params[] = $default;
-                }
-
                 //no default, no type hint, there is nothing we can do here but die horribly
                 throw new \Exception('No default value for non type hinted param ' . $param->getName());
             }
-
         }
         return $this->getObject($rc, $params, $lazy);
     }
