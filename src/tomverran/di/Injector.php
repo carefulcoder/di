@@ -28,10 +28,10 @@ class Injector
     protected $expensiveClasses = array();
 
     /**
-     * Array of class name => mock objects to return
+     * Array of class name => objects to return
      * @var array
      */
-    protected $mocks = array();
+    protected $boundClasses = array();
 
     /**
      * Cache of reflection classes
@@ -53,51 +53,35 @@ class Injector
      * @param string $class The classname to mock
      * @param mixed $object The mocked object
      */
-    public function mock($class, $object)
+    public function bind($class, $object)
     {
-        $this->mocks[$class] = $object;
+        $this->boundClasses[$class] = $object;
     }
 
     /**
      * Remove all mocks
      */
-    public function clearMocks()
+    public function unbindAll()
     {
-        $this->mocks = array();
-    }
-
-    /**
-     * Get an instance of an object depending on laziness
-     * @param \ReflectionClass $rc The reflection class to consider instantiating
-     * @param array $args An array of parameters to contemplate passing to the class
-     * @param bool $lazy Whether we can be bothered with the hassle of instantiation
-     * @return LazyLoader|object
-     */
-    protected function getObject($rc, $args, $lazy = false)
-    {
-        return $lazy ? new LazyLoader($rc, $args) : $rc->newInstanceArgs($args);
+        $this->boundClasses = array();
     }
 
     /**
      * Resolve a class, injecting its dependencies
      * @param string|\ReflectionClass $class The class to resolve
-     * @param bool $forceLazy Whether to force lazy loading
      * @throws \Exception If a param can't be resolved
      * @return object The resolved object
      */
-    public function resolve($class, $forceLazy = false)
+    public function resolve($class)
     {
-        //we want to lazy load if it has been forced on us or if this class is £££
-        $lazy = $forceLazy || in_array($class, $this->expensiveClasses);
-
         if ($class instanceof \ReflectionClass) {
             $this->rcs[$class->getName()] = $class;
             $class = $class->getName();
         }
 
-        //if we have a mock our job is easy
-        if (isset($this->mocks[$class])) {
-            return $this->mocks[$class];
+        //if we have a bound class our job is easy
+        if (isset($this->boundClasses[$class])) {
+            return $this->boundClasses[$class];
         }
 
         //find a reflection class
@@ -105,13 +89,12 @@ class Injector
             $this->rcs[$class] = new \ReflectionClass($class);
         }
 
-        $matches = array();
         $rc = $this->rcs[$class];
         $constructor = $rc->getConstructor();
 
         //load classes that have no constructor defined
         if (!$constructor && $rc->isInstantiable()) {
-            return $this->getObject($rc, array(), $lazy);
+            return $rc->newInstance();
         }
 
         //handle loading singleton classes as singletons
@@ -133,13 +116,13 @@ class Injector
 
             //ok then, do we have a type hint?
             if ($class = $param->getClass()) {
-                $params[] = $this->resolve($class, $lazy);
+                $params[] = $this->resolve($class);
             } else {
 
                 //no default, no type hint, there is nothing we can do here but die horribly
                 throw new \Exception('No default value for non type hinted param ' . $param->getName());
             }
         }
-        return $this->getObject($rc, $params, $lazy);
+        return $rc->newInstanceArgs($params);
     }
 } 

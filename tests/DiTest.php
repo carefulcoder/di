@@ -34,19 +34,4 @@ class DiTest extends PHPUnit_Framework_TestCase
         $class = $this->injector->resolve('tomverran\di\Injector');
         $this->assertTrue($class instanceof Injector);
     }
-
-    /**
-     * Test that we lazy load classes ok
-     */
-    public function testLazyLoading()
-    {
-        $this->injector->setExpensive('tomverran\di\Injector');
-        $class = $this->injector->resolve('tomverran\di\Injector');
-        $this->assertTrue($class instanceof tomverran\di\LazyLoader);
-
-        //make sure our lazy loader class is transparent
-        $andAgain = $class->resolve('tomverran\di\injector');
-        $this->assertTrue($andAgain instanceof tomverran\di\Injector);
-    }
-
 }
