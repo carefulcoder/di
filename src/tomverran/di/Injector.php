@@ -80,14 +80,20 @@ class Injector
 
     /**
      * Resolve a class, injecting its dependencies
-     * @param string $class The class to resolve
+     * @param string|\ReflectionClass $class The class to resolve
      * @param bool $forceLazy Whether to force lazy loading
+     * @throws \Exception If a param can't be resolved
      * @return object The resolved object
      */
     public function resolve($class, $forceLazy = false)
     {
         //we want to lazy load if it has been forced on us or if this class is £££
         $lazy = $forceLazy || in_array($class, $this->expensiveClasses);
+
+        if ($class instanceof \ReflectionClass) {
+            $this->rcs[$class->getName()] = $class;
+            $class = $class->getName();
+        }
 
         //if we have a mock our job is easy
         if (isset($this->mocks[$class])) {
@@ -120,8 +126,8 @@ class Injector
         foreach ($constructor->getParameters() as $param) {
 
             //do we have a default? That'd make life easy
-            if ($default = $param->getDefaultValue()) {
-                $params[] = $default;
+            if ($param->isDefaultValueAvailable()) {
+                $params[] = $param->getDefaultValue();
                 continue;
             }
 
