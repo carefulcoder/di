@@ -21,13 +21,6 @@ class Injector
     protected $singletonInstances = array();
 
     /**
-     * Rogues gallery of classes that are expensive to instantiate
-     * and so we should lazy load them with our dodgy wrapper
-     * @var string[]
-     */
-    protected $expensiveClasses = array();
-
-    /**
      * Array of class name => objects to return
      * @var array
      */
@@ -40,26 +33,21 @@ class Injector
     protected $rcs = array();
 
     /**
-     * Flag a class as expensive to instantiate
-     * @param string $className
-     */
-    public function setExpensive($className)
-    {
-        $this->expensiveClasses[] = $className;
-    }
+     * Bind an object to a classname class such that the specific instance will be passed to all usages
+     * @param mixed $object The object to bind to this class name
+     * @param string $class A class name to bind to
 
-    /**
-     * Mock a class such that when it is instantiated the mock will be returned instead
-     * @param string $class The classname to mock
-     * @param mixed $object The mocked object
      */
-    public function bind($class, $object)
+    public function bind($object, $class = null)
     {
+        if (!$class) {
+            $class = get_class($object);
+        }
         $this->boundClasses[$class] = $object;
     }
 
     /**
-     * Remove all mocks
+     * Unbind all bound classes
      */
     public function unbindAll()
     {
