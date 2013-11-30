@@ -31,7 +31,25 @@ class DiTest extends PHPUnit_Framework_TestCase
      */
     public function testLoading()
     {
-        $class = $this->injector->resolve('tomverran\di\Injector');
-        $this->assertTrue($class instanceof Injector);
+        $obj = $this->injector->resolve('tomverran\di\Injector');
+        $this->assertTrue($obj instanceof Injector);
+    }
+
+    /**
+     * Test the use of a callable class provider
+     * to handle class instantiation
+     */
+    public function testProvider()
+    {
+        $called = false;
+        $this->injector->bind(function($class) use(&$called) {
+            $called = true;
+            return new $class();
+        }, 'tomverran\di\Injector');
+
+
+        $obj = $this->injector->resolve('tomverran\di\Injector');
+        $this->assertTrue($obj instanceof Injector);
+        $this->assertTrue($called);
     }
 }

@@ -34,13 +34,13 @@ class Injector
 
     /**
      * Bind an object to a classname class such that the specific instance will be passed to all usages
-     * @param mixed $object The object to bind to this class name
+     * @param string|object|callable $object An object, a class name, or a callable to provide an object
      * @param string $class A class name to bind to
 
      */
     public function bind($object, $class = null)
     {
-        if (!$class) {
+        if (!$class && is_object($object) && !is_callable($object)) {
             $class = get_class($object);
         }
         $this->boundClasses[$class] = $object;
@@ -62,14 +62,36 @@ class Injector
      */
     public function resolve($class)
     {
+        //did we get called with an rc
         if ($class instanceof \ReflectionClass) {
             $this->rcs[$class->getName()] = $class;
             $class = $class->getName();
         }
 
+        //did we get called with an object
+        if (is_object($class)) {
+            return $class;
+        }
+
         //if we have a bound class our job is easy
         if (isset($this->boundClasses[$class])) {
-            return $this->boundClasses[$class];
+
+            $boundValue = $this->boundClasses[$class];
+
+            //case 1 - a string classname, though make sure it isn't a calllable global function
+            if (!is_callable($boundValue) && is_string($boundValue) && class_exists($boundValue)) {
+                return $this->resolve($boundValue);
+            }
+
+            //case 2 - a callable provider
+            if (is_callable($boundValue)) {
+                return $this->resolve($boundValue($class));
+            }
+
+            //case 3 - an actual object
+            if (is_object($boundValue)) {
+                return $boundValue;
+            }
         }
 
         //find a reflection class
