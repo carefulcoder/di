@@ -57,10 +57,11 @@ class Injector
     /**
      * Resolve a class, injecting its dependencies
      * @param string|\ReflectionClass $class The class to resolve
+     * @param string|null $requester name of the class this is a dependency for
      * @throws \Exception If a param can't be resolved
      * @return object The resolved object
      */
-    public function resolve($class)
+    public function resolve($class, $requester = '')
     {
         //did we get called with an rc
         if ($class instanceof \ReflectionClass) {
@@ -80,12 +81,12 @@ class Injector
 
             //case 1 - a string classname, though make sure it isn't a calllable global function
             if (!is_callable($boundValue) && is_string($boundValue) && class_exists($boundValue)) {
-                return $this->resolve($boundValue);
+                return $this->resolve($boundValue, $requester);
             }
 
             //case 2 - a callable provider
             if (is_callable($boundValue)) {
-                return $this->resolve($boundValue($class));
+                return $this->resolve($boundValue($class, $requester), $class);
             }
 
             //case 3 - an actual object
@@ -125,8 +126,8 @@ class Injector
             }
 
             //ok then, do we have a type hint?
-            if ($class = $param->getClass()) {
-                $params[] = $this->resolve($class);
+            if ($typeHinted = $param->getClass()) {
+                $params[] = $this->resolve($typeHinted, $class);
             } else {
 
                 //no default, no type hint, there is nothing we can do here but die horribly
