@@ -6,13 +6,16 @@
  */
 
 namespace tomverran\di;
+use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Interop\Container\Exception\NotFoundException;
 
 /**
  * Class Injector. A Simple and fun DI container.
  * Yes, I said fun. Don't look at me like that.
  * @package Framework
  */
-class Injector
+class Injector implements ContainerInterface
 {
     /**
      * Instances of singletons
@@ -136,4 +139,36 @@ class Injector
         }
         return $rc->newInstanceArgs($params);
     }
-} 
+
+    /**
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @throws NotFoundException  No entry was found for this identifier.
+     * @throws ContainerException Error while retrieving the entry.
+     *
+     * @return mixed Entry.
+     */
+    public function get($id)
+    {
+        return $this->resolve( $id );
+    }
+
+    /**
+     * Returns true if the container can return an entry for the given identifier.
+     * Returns false otherwise.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @return boolean
+     */
+    public function has($id)
+    {
+        try {
+            $this->resolve( $id );
+        } catch ( \Exception $e ) {
+            return false;
+        }
+    }
+}

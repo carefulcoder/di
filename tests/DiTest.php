@@ -4,8 +4,6 @@
  * @author Tom
  * @since 15/11/13
  */
-$s = DIRECTORY_SEPARATOR; //run from whichever working dir you want!
-require(dirname(__FILE__)."{$s}..{$s}vendor{$s}autoload.php");
 use tomverran\di\Injector;
 
 /**
@@ -31,7 +29,7 @@ class DiTest extends PHPUnit_Framework_TestCase
      */
     public function testLoading()
     {
-        $obj = $this->injector->resolve('tomverran\di\Injector');
+        $obj = $this->injector->get('tomverran\di\Injector');
         $this->assertTrue($obj instanceof Injector);
     }
 
