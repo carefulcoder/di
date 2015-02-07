@@ -18,12 +18,6 @@ use Interop\Container\Exception\NotFoundException;
 class Injector implements ContainerInterface
 {
     /**
-     * Instances of singletons
-     * @var array
-     */
-    protected $singletonInstances = array();
-
-    /**
      * Array of class name => objects to return
      * @var array
      */
@@ -109,12 +103,6 @@ class Injector implements ContainerInterface
         //load classes that have no constructor defined
         if (!$constructor && $rc->isInstantiable()) {
             return $rc->newInstance();
-        }
-
-        //handle loading singleton classes as singletons
-        if (!$rc->isInstantiable() && $rc->hasMethod('getInstance')) {
-            $this->singletonInstances[$class] = $rc->getMethod('getInstance')->invoke(null);
-            return $this->singletonInstances[$class];
         }
 
         //find any dependencies to load
