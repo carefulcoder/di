@@ -3,13 +3,11 @@
  * Created by PhpStorm.
  * User: tom
  * Date: 08/02/15
- * Time: 10:31
+ * Time: 12:54
  */
+namespace tomverran\di\Provider;
 
-namespace tomverran\di;
-
-
-interface Provider
+interface ProviderInterface
 {
     /**
      * Get a concrete instance
