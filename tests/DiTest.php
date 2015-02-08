@@ -4,7 +4,8 @@
  * @author Tom
  * @since 15/11/13
  */
-use tomverran\di\Injector;
+use tomverran\di\Container;
+use tomverran\di\Provider\CallableProvider;
 
 /**
  * Yeah, I thought I should do some testing.
@@ -12,7 +13,7 @@ use tomverran\di\Injector;
 class DiTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Injector An instance of the injector
+     * @var Container An instance of the injector
      */
     private $injector = null;
 
@@ -21,7 +22,7 @@ class DiTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->injector = new Injector();
+        $this->injector = new Container;
     }
 
     /**
@@ -29,8 +30,8 @@ class DiTest extends PHPUnit_Framework_TestCase
      */
     public function testLoading()
     {
-        $obj = $this->injector->get('tomverran\di\Injector');
-        $this->assertTrue($obj instanceof Injector);
+        $obj = $this->injector->get( Container::class );
+        $this->assertTrue($obj instanceof Container);
     }
 
     /**
@@ -40,14 +41,14 @@ class DiTest extends PHPUnit_Framework_TestCase
     public function testProvider()
     {
         $called = false;
-        $this->injector->bind(function($class) use(&$called) {
-            $called = true;
-            return new $class();
-        }, 'tomverran\di\Injector');
+        $provider = new CallableProvider( function() use (&$called) {
+            $called = true; //log this for testing
+            return new Container;
+        } );
 
-
-        $obj = $this->injector->resolve('tomverran\di\Injector');
-        $this->assertTrue($obj instanceof Injector);
-        $this->assertTrue($called);
+        $this->injector->bindProvider( Container::class, $provider );
+        $obj = $this->injector->get( Container::class );
+        $this->assertTrue( $obj instanceof Container );
+        $this->assertTrue( $called );
     }
 }
