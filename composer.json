@@ -1,5 +1,5 @@
 {
-    "name": "tomverran/di",
+    "name": "tomverran/di-container",
     "type": "library",
     "description": "Fun little DI container",
     "keywords": ["DI", "IoC", "Container"],
