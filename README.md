@@ -49,7 +49,7 @@ an instance of an ```InterfaceRegistry``` object and call the ```add($interface,
 to perform the binding
 
 ```php
-$interfaceRegistry = $aggregateContainer->get( SingletonRegistry::class );
+$interfaceRegistry = $aggregateContainer->get( InterfaceRegistry::class );
 $interfaceRegistry->add( SomeInterface::class, SomeImplementation::class );
 ```
 
