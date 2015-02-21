@@ -44,7 +44,9 @@ class AggregateContainer implements ContainerInterface
         $parameterResolver = new ContainerParameterResolver( $this );
         $this->reflectionContainer = new ReflectionContainer( $parameterResolver );
         $this->singletonContainer = new SingletonContainer( $this->reflectionContainer );
-        $this->providerContainer = new ProviderContainer( $this->singletonContainer );
+
+        //all providers should automatically be singletons, so we get them with an AutoSingletonContainer
+        $this->providerContainer = new ProviderContainer( new AutoSingletonContainer( $this->singletonContainer ) );
 
         // access to each of the underlying container types can be done through the container itself
         $this->singletonContainer->add( SingletonRegistry::class, $this->singletonContainer );
