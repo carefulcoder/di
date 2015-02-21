@@ -60,6 +60,7 @@ class AggregateContainer implements ContainerInterface
         $this->singletonContainer->add( InterfaceRegistry::class, $this->interfaceContainer );
         $this->singletonContainer->add( ProviderRegistry::class, $this->providerContainer );
         $this->singletonContainer->add( ParameterResolver::class, $parameterResolver );
+        $this->singletonContainer->add( ContainerInterface::class, $this );
 
         $this->containers = [
             $this->interfaceContainer,
@@ -86,7 +87,7 @@ class AggregateContainer implements ContainerInterface
                 return $container->get( $id );
             }
         }
-        throw new NotFoundException;
+        throw new NotFoundException( $id );
     }
 
     /**

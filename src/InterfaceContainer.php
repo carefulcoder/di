@@ -43,7 +43,7 @@ class InterfaceContainer implements ContainerInterface, InterfaceRegistry
     public function get( $id )
     {
         if ( !$this->has( $id ) ) {
-            throw new Exception\NotFoundException;
+            throw new Exception\NotFoundException( $id );
         }
         return $this->container->get( $this->mappings[$id] );
     }

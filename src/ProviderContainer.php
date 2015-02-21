@@ -35,7 +35,7 @@ class ProviderContainer implements ContainerInterface, ProviderRegistry
     public function get( $id )
     {
         if ( !$this->has( $id ) ) {
-            throw new NotFoundException;
+            throw new NotFoundException( $id );
         }
 
         /** @var ProviderInterface $provider */

@@ -47,7 +47,7 @@ class SingletonContainer implements ContainerInterface, SingletonRegistry
     public function get( $id )
     {
         if (!$this->has( $id ) ) {
-            throw new Exception\NotFoundException;
+            throw new Exception\NotFoundException( $id );
         }
 
         $singletonObject = $this->singletons[$id] ?: $this->reflectionContainer->get( $id );

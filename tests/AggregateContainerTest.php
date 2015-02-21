@@ -1,4 +1,5 @@
 <?php
+use Interop\Container\ContainerInterface;
 use TomVerran\Di\AggregateContainer;
 use TomVerran\Di\Provider\MockProvider;
 use TomVerran\Di\ProviderContainer;
@@ -44,6 +45,11 @@ class AggregateContainerTest extends PHPUnit_Framework_TestCase
     public function testSingletonContainerIsResolvable()
     {
         $this->assertInstanceOf( SingletonContainer::class, $this->singletonContainer );
+    }
+
+    public function testContainerInterfaceisResolvable()
+    {
+        $this->assertTrue( $this->container->has( ContainerInterface::class ) );
     }
 
     /**
