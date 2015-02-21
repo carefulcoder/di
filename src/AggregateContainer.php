@@ -53,7 +53,7 @@ class AggregateContainer implements ContainerInterface
 
         //all providers should automatically be singletons, so we get them with an AutoSingletonContainer
         $this->providerContainer = new ProviderContainer( new AutoSingletonContainer( $this->singletonContainer ) );
-        $this->interfaceContainer = new InterfaceContainer( $this->providerContainer );
+        $this->interfaceContainer = new InterfaceContainer( $this->reflectionContainer );
 
         // access to each of the underlying container types can be done through the container itself
         $this->singletonContainer->add( SingletonRegistry::class, $this->singletonContainer );
