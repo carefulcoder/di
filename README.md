@@ -40,6 +40,19 @@ $injector = new \TomVerran\Di\AggregateContainer();
 $instance = $injector->get( Foo::class );
 ```
 
+Interfaces or Abstract classes
+------------------------------
+
+Non concrete classes are handled by the ```InterfaceContainer``` object.
+To bind an interface or abstract class to a concrete class you should use the ```AggregateContainer``` to get
+an instance of an ```InterfaceRegistry``` object and call the ```add($interface, $implementation)``` method
+to perform the binding
+
+```php
+$interfaceRegistry = $aggregateContainer->get( SingletonRegistry::class );
+$interfaceRegistry->add( SomeInterface::class, SomeImplementation::class );
+```
+
 Singletons
 ----------
 
@@ -48,10 +61,8 @@ To tag a class as being a Singleton you should use the ```AggregateContainer``` 
 an instance of a ```SingletonRegistry``` object and call the ```add($class)``` method
 to flag a class as being a singleton.
 
-For example in the entry point for your framework
-
 ```php
-$singletonContainer = $aggregateContainer->get( SingletonRegistry::class );
+$singletonRegistry = $aggregateContainer->get( SingletonRegistry::class );
 $singletonRegistry->add( SingletonClassName::class );
 $singletonRegistry->add( SingletonClassName::class );
 ```
@@ -89,8 +100,8 @@ class Provider implements ProviderInterface
 then in the entry point for your framework
 
 ```php
-$providerContainer = $aggregateContainer->get(ProviderContainer::class);
-$providerContainer->add(DependencyWithScalarArguments::class, Provider::class);
+$providerContainer = $aggregateContainer->get( ProviderContainer::class );
+$providerContainer->add( DependencyWithScalarArguments::class, Provider::class );
 ```
 
 License

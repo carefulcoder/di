@@ -3,6 +3,7 @@ namespace TomVerran\Di;
 use Interop\Container\ContainerInterface;
 use TomVerran\ContainerParameterResolver;
 use TomVerran\Di\Exception\NotFoundException;
+use TomVerran\Di\Registry\InterfaceRegistry;
 use TomVerran\Di\Registry\ProviderRegistry;
 use TomVerran\Di\Registry\SingletonRegistry;
 use TomVerran\ParameterResolver;
@@ -32,6 +33,11 @@ class AggregateContainer implements ContainerInterface
     private $providerContainer;
 
     /**
+     * @var InterfaceContainer
+     */
+    private $interfaceContainer;
+
+    /**
      * @var ContainerInterface[]
      */
     private $containers;
@@ -47,13 +53,16 @@ class AggregateContainer implements ContainerInterface
 
         //all providers should automatically be singletons, so we get them with an AutoSingletonContainer
         $this->providerContainer = new ProviderContainer( new AutoSingletonContainer( $this->singletonContainer ) );
+        $this->interfaceContainer = new InterfaceContainer( $this->providerContainer );
 
         // access to each of the underlying container types can be done through the container itself
         $this->singletonContainer->add( SingletonRegistry::class, $this->singletonContainer );
+        $this->singletonContainer->add( InterfaceRegistry::class, $this->interfaceContainer );
         $this->singletonContainer->add( ProviderRegistry::class, $this->providerContainer );
         $this->singletonContainer->add( ParameterResolver::class, $parameterResolver );
 
         $this->containers = [
+            $this->interfaceContainer,
             $this->providerContainer,
             $this->singletonContainer,
             $this->reflectionContainer

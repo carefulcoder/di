@@ -2,6 +2,7 @@
 use TomVerran\Di\AggregateContainer;
 use TomVerran\Di\Provider\MockProvider;
 use TomVerran\Di\ProviderContainer;
+use TomVerran\Di\Registry\InterfaceRegistry;
 use TomVerran\Di\Registry\ProviderRegistry;
 use TomVerran\Di\Registry\SingletonRegistry;
 use TomVerran\Di\SingletonContainer;
@@ -69,10 +70,18 @@ class AggregateContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue( $this->singletonContainer->has( ParameterResolver::class ) );
     }
 
+    public function testSingletonContainerHasInterfaceContainer()
+    {
+        $this->assertTrue( $this->singletonContainer->has( InterfaceRegistry::class ) );
+    }
+
+    /**
+     * All provider objects should be auto-registered as singletons on first use
+     */
     public function testAllProvidersAreSingletons()
     {
         $this->providerContainer->add( stdClass::class, MockProvider::class );
         $this->container->get( stdClass::class );
         $this->assertTrue( $this->singletonContainer->has( MockProvider::class ) );
     }
-} 
+}
