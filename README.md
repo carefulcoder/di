@@ -51,35 +51,12 @@ To tag a class as being a Singleton you should use the ```AggregateContainer``` 
 an instance of a ```SingletonRegistry``` object and call the ```add($class)``` method
 to flag a class as being a singleton.
 
-```php
-
-/**
- * An example of a class you could create to configure Singletons
- */
-class SingletonConfiguration 
-{
-    private $singletons;
-
-    public function __construct( SingletonRegistry $r )
-    {
-        $this->singletons = $r;
-    }
-    
-    public function configure()
-    {
-        $this->singletons->add( SingletonClassName::class );
-        $this->singletons->add( SingletonClassNameTwo::class );
-        $this->singletons->add( SomeOtherClass::class );
-    }
-
-}
-```
-
-then in the entry point for your framework
+For example in the entry point for your framework
 
 ```php
-$singletonConfig = $aggregateContainer->get(SingletonConfiguration::class);
-$singletonConfig->configure();
+$singletonContainer = $aggregateContainer->get( SingletonRegistry::class );
+$singletonRegistry->add( SingletonClassName::class );
+$singletonRegistry->add( SingletonClassName::class );
 ```
 
 Providers
@@ -108,7 +85,7 @@ class Provider implements ProviderInterface()
     
     public function get()
     {
-        return new DependencyWithScalarArguments( 3, "something", $this->dependency );
+        return new DependencyWithScalarArguments( "something", $this->dependency );
     }
 }
 ```
