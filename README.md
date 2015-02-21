@@ -12,43 +12,73 @@ Well, not that much.
 
 Usage
 ------
-
-    /**
-     * Some random dependency
-     */
-    class Dependency
+```php
+/**
+ * Some random dependency
+ */
+class Dependency
+{
+    public function __construct()
     {
-        public function __construct()
-        {
-            //stuff
-        }
+        //stuff
+    }
+}
+
+/**
+ * Some dependent class
+ */
+class Foo
+{
+    /**
+     * @param Dependency $dependency
+     */
+    public function __construct(Dependency $dependency)
+    {
+
+    }
+}
+
+$injector = new \TomVerran\Di\AggregateContainer();
+$instance = $injector->get( Foo::class );
+```
+
+Singletons
+----------
+
+Singleton classes are handled by the ```SingletonContainer``` object.
+To tag a class as being a Singleton you should use the ```AggregateContainer``` to get
+an instance of a ```SingletonRegistry``` object and use that.
+
+```php
+
+/**
+ * An example of a class you could create to configure Singletons
+ */
+class SingletonConfiguration 
+{
+    private $singletons;
+
+    public function __construct( SingletonRegistry $r )
+    {
+        $this->singletons = $r;
+    }
+    
+    public function configure()
+    {
+        $this->singletons->add( SingletonClassName::class );
+        $this->singletons->add( SingletonClassNameTwo::class );
+        $this->singletons->add( SomeOtherClass::class );
     }
 
-    /**
-     * Some dependent class
-     */
-    class Foo
-    {
-        /**
-         * @param Dependency $dependency <-- The injector gets "Dependency" from this docblock
-         */
-        public function __construct($dependency)
-        {
+}
+```
 
-        }
-    }
+then in the entry point for your framework
 
-    $injector = new \TomVerran\Di\Injector();
-    $instance = $injector->resolve('Foo'); //constructs Dependency, then constructs Foo & passes along Dependency
-
-Pun name candidates
--------------------
-
- - "Live and Let DI" - I like this but it is rather a long name
- - "DI Another Day"  - I'm not ready to admit that Die Another Day existed
- - "Lady DI" - Bad taste.
- - "Euthanasia / Helping you DI" - Very bad taste.
-
+```php
+$singletonConfig = $aggregateContainer->get(SingletonConfiguration::class);
+$singletonConfig->configure();
+```
 
 License
 -------
