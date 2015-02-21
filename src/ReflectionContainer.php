@@ -15,6 +15,15 @@ use ReflectionClass;
 
 class ReflectionContainer implements ContainerInterface
 {
+    /**
+     * @var ParameterResolver
+     */
+    private $parameterResolver;
+
+    /**
+     * Construct this ReflectionContainer
+     * @param ParameterResolver $pr
+     */
     public function __construct( ParameterResolver $pr )
     {
         $this->parameterResolver = $pr;

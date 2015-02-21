@@ -31,6 +31,7 @@ class SingletonContainer implements ContainerInterface, SingletonRegistry
     public function __construct( ContainerInterface $rc )
     {
         $this->reflectionContainer = $rc;
+        $this->singletons = [];
     }
 
     /**
