@@ -21,7 +21,8 @@
     "require": {
         "php": ">=5.5.0",
         "container-interop/container-interop": "~1.0",
-        "tomverran/parameter-resolver": "dev-master"
+        "tomverran/parameter-resolver": "dev-master",
+        "tomverran/di-container-mock": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
