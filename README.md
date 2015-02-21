@@ -10,11 +10,12 @@ like those offered by things like Symfony or Laravel
 
 Well, not that much.
 
-Usage
-------
+Basic Usage
+-----------
+
 ```php
 /**
- * Some random dependency
+ * Some class you depend on
  */
 class Dependency
 {
@@ -25,7 +26,7 @@ class Dependency
 }
 
 /**
- * Some dependent class
+ * Some class with dependencies
  */
 class Foo
 {
@@ -47,7 +48,8 @@ Singletons
 
 Singleton classes are handled by the ```SingletonContainer``` object.
 To tag a class as being a Singleton you should use the ```AggregateContainer``` to get
-an instance of a ```SingletonRegistry``` object and use that.
+an instance of a ```SingletonRegistry``` object and call the ```add($class)``` method
+to flag a class as being a singleton.
 
 ```php
 
@@ -78,6 +80,43 @@ then in the entry point for your framework
 ```php
 $singletonConfig = $aggregateContainer->get(SingletonConfiguration::class);
 $singletonConfig->configure();
+```
+
+Providers
+---------
+
+Providers allow you to call on an object to get an instance of a class
+when it is otherwise impossible to resolve. For example a class with scalar parameters
+will need to have a provider fill those parameters in. Providers implement ```ProviderInterface```.
+
+To flag a class as being provided by a provider you should use the ```AggregateContainer``` to get
+an instance of a ```ProviderRegistry``` object and call the ```add($class, $provider)``` method
+to flag a class as being provided by another class.
+
+```php
+/**
+ * An example provider
+ */
+class Provider implements ProviderInterface()
+{
+    private $dependency;
+
+    public function __construct( Dependency $d )
+    {
+        $this->dependency = $d;
+    }
+    
+    public function get()
+    {
+        return new DependencyWithScalarArguments( 3, "something", $this->dependency );
+    }
+}
+```
+then in the entry point for your framework
+
+```php
+$providerContainer = $aggregateContainer->get(ProviderContainer::class);
+$providerContainer->add(DependencyWithScalarArguments::class, Provider::class);
 ```
 
 License
