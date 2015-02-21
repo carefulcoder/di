@@ -1,14 +1,11 @@
-Itty Bitty DI container
-=======================
+DI container
+============
 
-The point of this is to do something like other DI containers but without the need for boring typing hinting.
-So this figures out dependencies to inject from the docblock rather than typehints so you can mock a dependency
-with whatever you want because PHP isn't a strictly typed language.
+This is a dependency injection container built upon the excellent ```ContainerInterface``` interface
+for maximum interoperability. It has been designed with SOLID principles in mind, most notably the single responsibility principle.
 
-I mainly made this as a bit of fun so don't worry I'm not going to start advocating this over more mature solutions
-like those offered by things like Symfony or Laravel
-
-Well, not that much.
+Each of the three roles of the container (getting object instances with reflection, getting singleton objects and getting objects with providers)
+are handled with individual containers which are then composed together with an ```AggregateContainer``` which is the main entry point to the library.
 
 Basic Usage
 -----------
@@ -74,7 +71,7 @@ to flag a class as being provided by another class.
 /**
  * An example provider
  */
-class Provider implements ProviderInterface()
+class Provider implements ProviderInterface
 {
     private $dependency;
 
