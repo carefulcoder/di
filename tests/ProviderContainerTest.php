@@ -1,6 +1,6 @@
 <?php
-use tomverran\di\Provider\MockProvider;
-use tomverran\di\ProviderContainer;
+use TomVerran\Di\Provider\MockProvider;
+use TomVerran\Di\ProviderContainer;
 use TomVerran\MockContainer;
 
 class ProviderContainerTest extends PHPUnit_Framework_TestCase

@@ -1,8 +1,8 @@
 <?php
-use tomverran\di\AggregateContainer;
-use tomverran\di\Registry\ProviderRegistry;
-use tomverran\di\Registry\SingletonRegistry;
-use tomverran\di\SingletonContainer;
+use TomVerran\Di\AggregateContainer;
+use TomVerran\Di\Registry\ProviderRegistry;
+use TomVerran\Di\Registry\SingletonRegistry;
+use TomVerran\Di\SingletonContainer;
 use TomVerran\ParameterResolver;
 
 /**
@@ -30,7 +30,7 @@ class AggregateContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * make sure we can resolve the singleton container
-     * @throws \tomverran\di\Exception\NotFoundException
+     * @throws \TomVerran\Di\Exception\NotFoundException
      */
     public function testSingletonContainerIsResolvable()
     {

@@ -38,7 +38,7 @@ Usage
         }
     }
 
-    $injector = new \tomverran\di\Injector();
+    $injector = new \TomVerran\Di\Injector();
     $instance = $injector->resolve('Foo'); //constructs Dependency, then constructs Foo & passes along Dependency
 
 Pun name candidates

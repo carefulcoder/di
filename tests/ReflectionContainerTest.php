@@ -1,6 +1,6 @@
 <?php
 use TomVerran\ContainerParameterResolver;
-use tomverran\di\ReflectionContainer;
+use TomVerran\Di\ReflectionContainer;
 use TomVerran\MockContainer;
 use TomVerran\ParameterResolver;
 
@@ -14,7 +14,7 @@ use TomVerran\ParameterResolver;
 class ReflectionContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \tomverran\di\ReflectionContainer
+     * @var \TomVerran\Di\ReflectionContainer
      */
     private $reflectionContainer;
 

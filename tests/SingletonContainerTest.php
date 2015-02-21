@@ -1,5 +1,5 @@
 <?php
-use tomverran\di\SingletonContainer;
+use TomVerran\Di\SingletonContainer;
 use TomVerran\MockContainer;
 
 /**

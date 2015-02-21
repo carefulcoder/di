@@ -1,10 +1,10 @@
 <?php
-namespace tomverran\di;
+namespace TomVerran\Di;
 use Interop\Container\ContainerInterface;
-use tomverran\di\Exception\NotFoundException;
-use tomverran\di\Provider\ProviderInterface;
-use tomverran\di\Registry\ProviderRegistry;
-use tomverran\di\Provider;
+use TomVerran\Di\Exception\NotFoundException;
+use TomVerran\Di\Provider\ProviderInterface;
+use TomVerran\Di\Registry\ProviderRegistry;
+use TomVerran\Di\Provider;
 
 class ProviderContainer implements ContainerInterface, ProviderRegistry
 {

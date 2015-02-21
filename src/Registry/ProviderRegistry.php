@@ -1,5 +1,5 @@
 <?php
-namespace tomverran\di\Registry;
+namespace TomVerran\Di\Registry;
 
 interface ProviderRegistry
 {

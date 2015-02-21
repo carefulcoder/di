@@ -5,7 +5,7 @@
  * Date: 08/02/15
  * Time: 12:54
  */
-namespace tomverran\di\Provider;
+namespace TomVerran\Di\Provider;
 
 interface ProviderInterface
 {

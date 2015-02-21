@@ -1,5 +1,5 @@
 <?php
-namespace tomverran\di\Exception;
+namespace TomVerran\Di\Exception;
 
 class NotFoundException extends ContainerException implements \Interop\Container\Exception\NotFoundException {
 

@@ -1,10 +1,10 @@
 <?php
-namespace tomverran\di;
+namespace TomVerran\Di;
 use Interop\Container\ContainerInterface;
 use TomVerran\ContainerParameterResolver;
-use tomverran\di\Exception\NotFoundException;
-use tomverran\di\Registry\ProviderRegistry;
-use tomverran\di\Registry\SingletonRegistry;
+use TomVerran\Di\Exception\NotFoundException;
+use TomVerran\Di\Registry\ProviderRegistry;
+use TomVerran\Di\Registry\SingletonRegistry;
 use TomVerran\ParameterResolver;
 
 /**

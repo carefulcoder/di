@@ -6,11 +6,11 @@
  * Time: 12:42
  */
 
-namespace tomverran\di;
+namespace TomVerran\Di;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
-use tomverran\di\Registry\SingletonRegistry;
+use TomVerran\Di\Registry\SingletonRegistry;
 
 class SingletonContainer implements ContainerInterface, SingletonRegistry
 {

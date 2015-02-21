@@ -1,5 +1,5 @@
 <?php
-namespace tomverran\di\Provider;
+namespace TomVerran\Di\Provider;
 use stdClass;
 
 class MockProvider implements ProviderInterface

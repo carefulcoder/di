@@ -6,7 +6,7 @@
  * Time: 12:51
  */
 
-namespace tomverran\di;
+namespace TomVerran\Di;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
